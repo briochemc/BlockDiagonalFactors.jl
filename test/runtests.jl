@@ -19,6 +19,8 @@ using LinearAlgebra, SparseArrays, SuiteSparse
         @testset "backslash" begin
             x_BDF = BDF \ b
             @test x_BDF ≈ x_BDM
+            x_BDF = BDF \ (im*b)
+            @test x_BDF ≈ (im*x_BDM)
         end
         @testset "ldiv!(A, b)" begin
             x_BDF2 = copy(b)
