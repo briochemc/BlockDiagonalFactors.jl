@@ -17,6 +17,7 @@
   <a href="https://briochemc.github.io/BlockDiagonalFactors.jl/latest/">
     <img src=https://img.shields.io/badge/docs-dev-blue.svg>
   </a>
+  (coming soon!)
 </p>
 <p>
   <a href="https://travis-ci.com/briochemc/BlockDiagonalFactors.jl">
