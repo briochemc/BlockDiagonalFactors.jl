@@ -53,7 +53,7 @@ M = [A ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅
      ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ A]
 ```
 
-Instead of creating that big matrix, you can create a `BlockFactors` or `SparseBlockFactors` object (depending if `A`, `B`, and `C` are sparse) via the following syntax
+Instead of creating that big matrix, factorizing it whole, or factorizing each block, you can create a `BlockFactors` or `SparseBlockFactors` object (depending if `A`, `B`, and `C` are sparse) via the following syntax
 
 ```julia
 # From an array of the matrices
@@ -64,26 +64,44 @@ indices = [1, 1, 2, 1, 3, 1, 3, 2, 1]
 
 # And create the Block Diagonal Factors (BDF) object
 BDF = factorize(Ms, indices)
-
-# Access its size via `.n` and `.m`
-m = BDF.m
-
-# You can solve for linear systems M * x = b,
-b = rand(m)
-
-# via `\`
-x_backslash = BDF \ b
-
-# or the inplace `ldiv!(M,b)`
-x_ldiv = copy(b)
-ldiv!(BDF, x_ldiv)
-
-# or the inplace `ldiv!(x,M,b)`
-x_ldiv2 = similar(b)
-ldiv!(x_ldiv2, BDF, b)
 ```
+
+This way `A`, `B`, and `C` are factorized only once.
+Then, you can solve for linear systems `M * x = b` 
+- via backslash `\`
+
+    ```julia
+    x_backslash = BDF \ b
+    ```
+
+- via the inplace `ldiv!(M,b)`
+    ```julia
+    x_ldiv = copy(b)
+    ldiv!(BDF, x_ldiv)
+    ```
+
+- or via the inplace `ldiv!(x,M,b)`
+    ```julia
+    x_ldiv2 = similar(b)
+    ldiv!(x_ldiv2, BDF, b)
+    ```
+
+### How it works
+
+The package simply creates two new types, `BlockFactors` or `SparseBlockFactors`, which look like
+```julia
+struct (Sparse)BlockFactors{Tv}
+    factors::Vector
+    indices::Vector{<:Int}
+    m::Int
+    n::Int
+end
+```
+and overloads `factorize`, `lu`, and other factorization functions to create those objects from an array of matrices and the repeating indices.
+It also overloads `\` and `ldiv!` to solve the linear systems.
+That's it!
 
 ### Cite us!
 
 If you use this package directly, please cite it!
-Use the [CITATION.bib](./CITATION.bib), which should contain a bibtex entry for the software.
+Use the [CITATION.bib](./CITATION.bib), which contains a bibtex entry for the software (coming soon).
