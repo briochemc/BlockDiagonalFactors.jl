@@ -23,8 +23,8 @@
   <a href="https://travis-ci.com/briochemc/BlockDiagonalFactors.jl">
     <img alt="Build Status" src="https://travis-ci.com/briochemc/BlockDiagonalFactors.jl.svg?branch=master">
   </a>
-  <a href='https://coveralls.io/github/briochemc/BlockDiagonalFactors.jl'>
-    <img src='https://coveralls.io/repos/github/briochemc/BlockDiagonalFactors.jl/badge.svg' alt='Coverage Status' />
+  <a href='https://coveralls.io/github/briochemc/BlockDiagonalFactors.jl?branch=master'>
+    <img src='https://coveralls.io/repos/github/briochemc/BlockDiagonalFactors.jl/badge.svg?branch=master' alt='Coverage Status' />
   </a>
 </p>
 <p>
