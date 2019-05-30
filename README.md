@@ -56,34 +56,32 @@ M = [A ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅
 Instead of creating that big matrix, factorizing it whole, or factorizing each block, you can create a `BlockFactors` or `SparseBlockFactors` object (depending if `A`, `B`, and `C` are sparse) via the following syntax
 
 ```julia
-# From an array of the matrices
+# Form an array of the matrices
 Ms = [A, B, C]
 
-# And an array of "repetition" indices
+# and an array of "repetition" indices
 indices = [1, 1, 2, 1, 3, 1, 3, 2, 1]
 
-# And create the Block Diagonal Factors (BDF) object
+# to create the Block Diagonal Factors (BDF) object
 BDF = factorize(Ms, indices)
 ```
 
 This way `A`, `B`, and `C` are factorized only once.
-Then, you can solve for linear systems `M * x = b` 
-- via backslash `\`
+Then, you can solve for linear system `M * x = b` 
+- via backslash (same as `M \ b`)
 
     ```julia
-    x_backslash = BDF \ b
+    x = BDF \ b
     ```
 
-- via the inplace `ldiv!(M,b)`
+- via the inplace (same as `ldiv!(M, b)`)
     ```julia
-    x_ldiv = copy(b)
-    ldiv!(BDF, x_ldiv)
+    ldiv!(BDF, b)
     ```
 
-- or via the inplace `ldiv!(x,M,b)`
+- or via the inplace (same as `ldiv!(x, M, b)`)
     ```julia
-    x_ldiv2 = similar(b)
-    ldiv!(x_ldiv2, BDF, b)
+    ldiv!(x, BDF, b)
     ```
 
 ### How it works
@@ -98,10 +96,10 @@ struct (Sparse)BlockFactors{Tv}
 end
 ```
 and overloads `factorize`, `lu`, and other factorization functions to create those objects from an array of matrices and the repeating indices.
-It also overloads `\` and `ldiv!` to solve the linear systems.
+In order to solve linear systems it also overloads `\` and `ldiv!`.
 That's it!
 
-### Cite us!
+### Cite it!
 
 If you use this package directly, please cite it!
 Use the [CITATION.bib](./CITATION.bib), which contains a bibtex entry for the software (coming soon).
